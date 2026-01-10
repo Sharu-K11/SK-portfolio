@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Student Portfolio</title>
+
+  <!-- Tailwind + DaisyUI -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" /> -->
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+  <style>
+    html,
+    body,
+    * {
+      transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+    }
+
+    /* Subtle professional background */
+    .bg-soft {
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(99, 102, 241, .12), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(20, 184, 166, .10), transparent 55%),
+        radial-gradient(1000px 500px at 50% 100%, rgba(244, 63, 94, .08), transparent 55%);
+    }
+
+    /* Typing caret */
+    .caret::after {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 1.2em;
+      margin-left: 6px;
+      border-right: 2px solid currentColor;
+      opacity: .7;
+      animation: blink .9s steps(2, start) infinite;
+      vertical-align: -0.15em;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+</head>
+
+<body class="min-h-screen bg-base-100 text-base-content">
+  {% block content %}
+  
+  
+  <!-- Main Content 
+   -->
+  {% endblock %}
+</body>
+
+</html>

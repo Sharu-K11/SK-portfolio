@@ -1,0 +1,31 @@
+
+    {% for project in projects %}
+    <article class="project-card card rounded-3xl border border-base-200 bg-base-100 shadow-sm"
+      data-tags="systems backend">
+      <div class="card-body">
+        <h3 class="card-title">{{ project.title }}</h3>
+        <p class="opacity-75">
+          {{project.description}}
+        </p>
+
+        <div class="mt-2 flex flex-wrap gap-2">
+          {% for badge in project.badges_list %}
+          <span class="badge badge-primary badge-outline">{{badge}}</span>
+          {% endfor %}
+
+
+        </div>
+
+        <div class="card-actions mt-4 justify-end">
+          {% if project.github_link %}
+          <a class="btn btn-sm rounded-2xl btn-outline" href="#">GitHub</a>
+          {% endif %}
+
+          {% if project.live_link %}
+          <a class="btn btn-sm rounded-2xl btn-primary" href="#">Live</a>
+          {% endif %}
+
+        </div>
+      </div>
+    </article>
+    {% endfor %}

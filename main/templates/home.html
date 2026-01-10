@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- Main Content -->
+
+<!-- Header -->
+<header class="sticky top-0 z-50 border-b border-base-200 bg-base-100/85 backdrop-blur">
+  <div class="mx-auto max-w-6xl px-4">
+    <div class="relative flex items-center py-3">
+      <!-- Brand -->
+      <a href="#intro" class="btn btn-ghost rounded-2xl px-3 text-lg font-bold tracking-tight">
+        <span class="badge badge-primary badge-sm">SK</span>
+        <span>Portfolio</span>
+      </a>
+
+      <!-- Center Nav -->
+      <nav class="absolute left-1/2 hidden -translate-x-1/2 md:block">
+        <ul class="menu menu-horizontal gap-1 rounded-2xl border border-base-200 bg-base-100/70 px-2 py-1">
+          <li><a class="rounded-xl" href="#intro">Intro</a></li>
+          <li><a class="rounded-xl" href="#projects">Projects</a></li>
+          <li><a class="rounded-xl" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right -->
+      <div class="ml-auto flex items-center gap-2">
+        <!-- Theme toggle -->
+        <label class="swap swap-rotate btn btn-ghost rounded-2xl" title="Toggle theme">
+          <input id="themeToggle" type="checkbox" />
+          <!-- sun -->
+          <svg class="swap-off h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707M17.657 17.657l.707.707M6.343 6.343l.707.707M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" />
+          </svg>
+          <!-- moon -->
+          <svg class="swap-on h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 12.79A9 9 0 1 1 11.21 3c.06.34.09.69.09 1.05A7.5 7.5 0 0 0 18.8 11.55c.36 0 .71-.03 1.05-.09.08.43.12.87.15 1.33Z" />
+          </svg>
+        </label>
+
+        <!-- Mobile menu -->
+        <div class="dropdown dropdown-end md:hidden">
+          <label tabindex="0" class="btn btn-ghost rounded-2xl" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </label>
+          <ul tabindex="0"
+            class="dropdown-content menu mt-3 w-56 rounded-2xl border border-base-200 bg-base-100 p-2 shadow">
+            <li><a href="#intro">Intro</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<main class="bg-soft">
+  <!-- ===================================================================== -->
+  <!-- Intro Section                                                         -->
+  <!-- ===================================================================== -->
+  {% include "sections/intro.html" %}
+  <!-- End Intro Section -->
+  <!-- ===================================================================== -->
+
+
+  <!-- ===================================================================== -->
+  <!-- Projects Section                                                      -->
+  <!-- ===================================================================== -->
+  {% include "sections/project.html" %}
+  <!-- End Projects Section -->
+  <!-- ===================================================================== -->
+
+
+  <!-- ===================================================================== -->
+  <!-- Contact Section                                                       -->
+  <!-- ===================================================================== -->
+  <section id="contact" class="mx-auto max-w-6xl px-4 pb-20">
+    {% include "sections/contact.html" %}
+  </section>
+
+  <!-- End Contact Section -->
+  <!-- ===================================================================== -->
+
+
+  <!-- ===================================================================== -->
+  <!-- Footer Section                                                        -->
+  <!-- ===================================================================== -->
+
+  {% include "sections/footer.html" %}
+  <!-- End Footer Section -->
+  <!-- ===================================================================== -->
+</main>
+<!-- End Main Content -->
+
+
+<script>
+  // ===== Theme (light/dark only) =====
+  const THEME_KEY = "portfolio_theme";
+  const htmlEl = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+
+  function applyTheme(theme) {
+    const next = theme === "dark" ? "dark" : "light";
+    htmlEl.setAttribute("data-theme", next);
+    toggle.checked = next === "dark";
+    localStorage.setItem(THEME_KEY, next);
+  }
+
+  (function initTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "light" || saved === "dark") return applyTheme(saved);
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(prefersDark ? "dark" : "light");
+  })();
+
+  toggle.addEventListener("change", () => {
+    applyTheme(toggle.checked ? "dark" : "light");
+  });
+
+  // ===== Footer year =====
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ===== Copy Email =====
+  const email = "sharushan0000@gmail.com";
+  const copyBtn = document.getElementById("copyEmailBtn");
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      const old = copyBtn.textContent;
+      copyBtn.textContent = "Copied";
+      setTimeout(() => (copyBtn.textContent = old), 1000);
+    } catch {
+      alert("Clipboard blocked. Email: " + email);
+    }
+  });
+
+  // ===== Projects filter (UI only) =====
+  const filter = document.getElementById("projectFilter");
+  const cards = document.querySelectorAll(".project-card");
+  const emptyState = document.getElementById("emptyState");
+
+  function applyFilterUI() {
+    const selected = filter.value;
+    let shown = 0;
+
+    cards.forEach(card => {
+      const tags = card.dataset.tags
+        .split(/\s+/)
+        .filter(Boolean);
+
+      const show = selected === "all" || tags.includes(selected);
+
+      card.classList.toggle("hidden", !show);
+      if (show) shown++;
+    });
+
+    emptyState?.classList.toggle("hidden", shown !== 0);
+  }
+
+  filter.addEventListener("change", applyFilterUI);
+  applyFilterUI();
+
+  // ===== Looping titles (typing) =====
+  const titles = [
+    "Software Engineer",
+    "AI Engineer",
+    "Systems Programmer",
+    "Backend Developer",
+    "Full-Stack Developer",
+    "Data & ML Builder"
+  ];
+  const el = document.getElementById("loopTitle");
+
+  let tIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  function tick() {
+    const current = titles[tIndex];
+
+    if (!deleting) {
+      charIndex++;
+      el.textContent = current.slice(0, charIndex);
+      if (charIndex >= current.length) {
+        deleting = true;
+        setTimeout(tick, 900);
+        return;
+      }
+    } else {
+      charIndex--;
+      el.textContent = current.slice(0, charIndex);
+      if (charIndex <= 0) {
+        deleting = false;
+        tIndex = (tIndex + 1) % titles.length;
+      }
+    }
+
+    setTimeout(tick, deleting ? 35 : 55);
+  }
+  el.textContent = "";
+  tick();
+
+
+  // Contact copy
+  
+
+  async function copyFromBtn(btn) {
+    const text = btn.dataset.copy;
+
+    try {
+      await navigator.clipboard.writeText(text);
+
+      const oldText = btn.textContent;
+      btn.textContent = "Copied!";
+      btn.classList.remove("btn-outline");
+      btn.classList.add("btn-success");
+
+      // little pop animation
+      btn.classList.add("scale-105");
+      setTimeout(() => btn.classList.remove("scale-105"), 150);
+
+      setTimeout(() => {
+        btn.textContent = oldText;
+        btn.classList.remove("btn-success");
+        btn.classList.add("btn-outline");
+      }, 1200);
+
+    } catch (e) {
+      // fallback (optional)
+      btn.textContent = "Failed";
+      btn.classList.add("btn-error");
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("btn-error");
+      }, 1200);
+    }
+  }
+
+
+
+
+</script>
+{% endblock %}

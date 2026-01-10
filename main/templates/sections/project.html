@@ -1,0 +1,97 @@
+<!-- Project Section - sections/project.html -->
+ <br>
+<section id="projects" class="mx-auto max-w-6xl px-4 pb-16">
+
+  <!-- Header + Controls -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h2 class="text-3xl font-black">Projects</h2>
+      <p class="mt-2 max-w-2xl opacity-75">
+        <!--  -->
+        Use filters to narrow down your search results.
+      </p>
+    </div>
+
+    <!-- Search + Filter -->
+    <div class="w-full sm:w-auto">
+      <div class="grid gap-3 sm:grid-cols-2 sm:items-end">
+
+        <!-- Search (Django-ready GET form) -->
+        <!-- Search -->
+        <form class="form-control">
+          <span class="label-text text-sm opacity-70">Search</span>
+
+          <label class="input input-bordered rounded-2xl flex items-center gap-2">
+            <!-- icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+            </svg>
+
+            <input type="text" name="term" placeholder="Search projects..." class="grow" autocomplete="on"
+              hx-get="{% url 'search' %}" hx-trigger="keyup changed delay:300ms" hx-target="#results" />
+          </label>
+        </form>
+
+
+        <!-- Filter UI -->
+        <label class="form-control">
+          <span class="label-text text-sm opacity-70">Filter</span>
+          <select id="projectFilter" class="select select-bordered rounded-2xl">
+            <option value="all">All</option>
+            <option value="web">Web</option>
+            <option value="backend">Backend</option>
+            <option value="ai">AI / ML</option>
+            <option value="systems">Systems</option>
+          </select>
+        </label>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Cards -->
+  <div class="mt-8 grid gap-5 md:grid-cols-3" id="results">
+
+
+
+    {% for project in projects %}
+    <article class="project-card card rounded-3xl border border-base-200 bg-base-100 shadow-sm"
+      data-tags="{% for badge in project.badges_list %}{{ badge|lower }} {% endfor %}">
+      <div class="card-body">
+        <h3 class="card-title">{{ project.title }}</h3>
+
+        <p class="opacity-75">{{ project.description }}</p>
+
+        <div class="mt-2 flex flex-wrap gap-2">
+          {% for badge in project.badges_list %}
+          <span class="badge badge-primary badge-outline">
+            {{ badge }}
+          </span>
+          {% endfor %}
+        </div>
+
+        <div class="card-actions mt-4 justify-end">
+          {% if project.github_link %}
+          <a class="btn btn-sm rounded-2xl btn-outline" href="{{ project.github_link }}">GitHub</a>
+          {% endif %}
+          {% if project.live_link %}
+          <a class="btn btn-sm rounded-2xl btn-primary" href="{{ project.live_link }}">Live</a>
+          {% endif %}
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+
+
+  </div>
+
+  <!-- Empty state -->
+  <div id="emptyState" class="mt-8 hidden">
+    <div class="alert rounded-2xl">
+      <span>No projects match the selected criteria.</span>
+    </div>
+  </div>
+</section>
+<br><br>
+<!-- End Project Section -->

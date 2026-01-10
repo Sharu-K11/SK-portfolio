@@ -1,0 +1,120 @@
+<!-- Contact Section -->
+<div class="rounded-3xl border border-base-200 bg-base-100 p-8 shadow-sm">
+  <div class="grid gap-10 md:grid-cols-12">
+
+    <!-- Left column -->
+    <div class="md:col-span-5">
+      <h2 class="text-3xl font-black">Contact</h2>
+      <p class="mt-2 opacity-75">
+        Please include context (role, company, or project details). I’m happy to connect.
+      </p>
+
+      <div class="mt-6 space-y-3">
+        <!-- Email -->
+        <div
+          class="rounded-2xl border border-base-200 bg-base-100/70 px-4 py-3 flex items-center justify-between gap-3">
+          <div>
+            <div class="text-sm opacity-70">Email</div>
+            <a href="mailto:sharushan0000@gmail.com" class="font-semibold link link-hover">
+              sharushan0000@gmail.com
+            </a>
+          </div>
+          <button class="btn btn-xs btn-outline rounded-xl transition-all duration-200"
+            data-copy="sharushan0000@gmail.com" onclick="copyFromBtn(this)">
+            Copy
+          </button>
+        </div>
+
+        <!-- LinkedIn -->
+        <div
+          class="rounded-2xl border border-base-200 bg-base-100/70 px-4 py-3 flex items-center justify-between gap-3">
+          <div>
+            <div class="text-sm opacity-70">LinkedIn</div>
+            <a href="https://www.linkedin.com/in/sharushan-kumareshan/" target="_blank"
+              class="font-semibold link link-hover">
+              sharushan-kumareshan
+            </a>
+          </div>
+          <button class="btn btn-xs btn-outline rounded-xl transition-all duration-200"
+            data-copy="https://www.linkedin.com/in/sharushan-kumareshan/" onclick="copyFromBtn(this)">
+            Copy
+          </button>
+        </div>
+
+        <!-- GitHub -->
+        <div
+          class="rounded-2xl border border-base-200 bg-base-100/70 px-4 py-3 flex items-center justify-between gap-3">
+          <div>
+            <div class="text-sm opacity-70">GitHub</div>
+            <a href="https://github.com/Sharu-K11" target="_blank" class="font-semibold link link-hover">
+              github.com/Sharu-K11
+            </a>
+          </div>
+          <button class="btn btn-xs btn-outline rounded-xl transition-all duration-200"
+            data-copy="https://github.com/Sharu-K11" onclick="copyFromBtn(this)">
+            Copy
+          </button>
+        </div>
+        <span>
+          {% if messages %}
+          <div class="space-y-2">
+            {% for message in messages %}
+            <div class="alert
+        {% if message.tags == 'success' %}alert-success{% endif %}
+        {% if message.tags == 'error' %}alert-error{% endif %}
+        {% if message.tags == 'warning' %}alert-warning{% endif %}
+        {% if message.tags == 'info' %}alert-info{% endif %}
+      ">
+              {{ message }}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+        </span>
+      </div>
+    </div>
+
+    <!-- Right column: FORM (inside the grid now) -->
+
+
+    <form class="md:col-span-7 space-y-4" hx-post="{% url 'email' %}" hx-target="#contact" hx-swap="innerHTML">
+      {% csrf_token %}
+
+      <div id="contact-form-area" class="space-y-4">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="form-control">
+            <span class="label-text text-sm">Name</span>
+            <input class="input input-bordered rounded-2xl" placeholder="Your name" name="name" required />
+          </label>
+
+          <label class="form-control">
+            <span class="label-text text-sm">Email</span>
+            <input class="input input-bordered rounded-2xl" placeholder="name@company.com" name="email" type="email"
+              required />
+          </label>
+        </div>
+
+        <label class="form-control">
+          <span class="label-text text-sm">Subject</span>
+          <input class="input input-bordered rounded-2xl" name="subject"
+            placeholder="Internship opportunity / Collaboration / Question" required />
+        </label>
+
+        <label class="form-control">
+          <span class="label-text text-sm">Message</span>
+          <textarea class="textarea textarea-bordered rounded-2xl min-h-36" name="message"
+            placeholder="Write your message..." required></textarea>
+        </label>
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <!-- IMPORTANT: submit, not button -->
+          <button class="btn btn-primary rounded-2xl" type="submit">
+            Send
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
