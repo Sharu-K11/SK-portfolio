@@ -1,1 +1,1 @@
-python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn portfolio_site.wsgi
+web: python manage.py makemigrations && python manage.py migrate && gunicorn portfolio_site.wsgi
