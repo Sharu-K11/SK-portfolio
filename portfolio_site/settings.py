@@ -150,4 +150,6 @@ EMAIL_USE_TLS = True # Set to False if using port 465 and EMAIL_USE_SSL = True
 EMAIL_HOST_USER =  os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # Default sender if from_email is not specified
+EMAIL_TIMEOUT = 10
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
