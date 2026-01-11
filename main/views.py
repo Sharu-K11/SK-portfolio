@@ -5,6 +5,7 @@ from .models import Project
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -49,7 +50,7 @@ def search(request):
 
    
 
-
+@login_required
 def project_form(request):
     if request.method == 'POST':
         form_instance = ProjectForm(request.POST)
