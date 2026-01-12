@@ -16,3 +16,16 @@ class Project(models.Model):
 
     def __str__(self):
         return f'{self.title} - {self.last_modified}'
+
+
+
+
+class Email(models.Model):
+    name = models.TextField(max_length=100)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField()
+    message = models.TextField()
+
+
+    def __str__(self):
+        return f"{self.name} + {self.email} "
